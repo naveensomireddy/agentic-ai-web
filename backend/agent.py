@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from crewai import Agent
 from langchain_google_genai import ChatGoogleGenerativeAI
-from tools import search_tool
 
 # Load your API key from .env
 load_dotenv()
@@ -10,6 +9,8 @@ load_dotenv()
 # Initialize Gemini 1.5 Pro
 gemini_llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-pro",
+    verbose=True,
+    temperature=0.5,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
 
@@ -19,7 +20,6 @@ class WebsiteAgents:
             role='Market Researcher',
             goal='Analyze {topic} trends in 2026',
             backstory='Expert at deep-web analysis and trend forecasting.',
-            tools=[search_tool],
             llm=gemini_llm,  # <--- This connects the agent to Gemini
             verbose=True
         )
